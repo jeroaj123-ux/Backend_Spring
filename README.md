@@ -4,18 +4,18 @@ El objetivo fue extender un código base existente, agregando nuevas funciones y
 
 Tecnologias utilizadas:
 
-Virutal Box
+Virutal Box.
 
-Lubuntu
+Lubuntu.
 
-Java 8+
+Java 8+.
 
-Maven 
+Maven .
 
-MySQL
+MySQL.
 
 
-Estructura
+Estructura:
 src/main/java/co/com/
 
 │
@@ -30,7 +30,7 @@ src/main/java/co/com/
 
 
 
-En este trabajo aprendi lo sigueinte:
+En este trabajo aprendi lo siguiente:
 
 -Uso de Maven para gestionar un proyecto backend.
 
