@@ -14,6 +14,7 @@ Maven
 
 MySQL
 
+
 Estructura
 src/main/java/co/com/
 
@@ -26,6 +27,7 @@ src/main/java/co/com/
 ├── co.com.manager/         # Lógica de negocio
 
 └── co.com.ws.rest/         # Servicios REST (endpoints)
+
 
 
 En este trabajo aprendi lo sigueinte:
@@ -42,9 +44,10 @@ En este trabajo aprendi lo sigueinte:
 
 Este proyecto representa mi primer acercamiento al desarrollo backend con Java, combinando teoría con práctica real.
 
+
 Ejemplo para que puedas guiarte en las url:
 
-Consultar todos los estudiantes
+Consultar todos los estudiantes.
 
 GET /servicesRest/WsEstudiante/ConsultarTodos
 
