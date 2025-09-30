@@ -48,39 +48,37 @@ public class EstudianteManager {
     public EstudiantesConMaterias getEstudiantesConMaterias(int idEstudiante) throws Exception {
         Connection con = BaseDatos.getConnection();
 
-        // Primero obtenemos los datos del estudiante
-        String sqlEst = "SELECT * FROM Estudiantes WHERE idEstudiante = ?";
-        PreparedStatement psEst = con.prepareStatement(sqlEst);
-        psEst.setInt(1, idEstudiante);
-        ResultSet rsEst = psEst.executeQuery();
+        String sql = "SELECT e.idEstudiante, e.identificacion, e.nombres, " +
+                     "m.idMateria, m.nombre AS nombreMateria " +
+                     "FROM Estudiantes e " +
+                     "INNER JOIN MateriasEstudiantes me ON e.idEstudiante = me.idEstudiante " +
+                     "INNER JOIN Materias m ON me.idMateria = m.idMateria " +
+                     "WHERE e.idEstudiante = ?";
 
-        if (!rsEst.next()) {
-            con.close();
-            return null;
-        }
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, idEstudiante);
+        ResultSet rs = ps.executeQuery();
 
-        EstudiantesConMaterias ecm = new EstudiantesConMaterias();
-        ecm.setIdEstudiante(rsEst.getInt("idEstudiante"));
-        ecm.setIdentificacion(rsEst.getString("identificacion"));
-        ecm.setNombre(rsEst.getString("nombre"));
-        // Ahora obtenemos sus materias
-        String sqlMat = "SELECT m.idMateria, m.nombre " +
-                        "FROM MateriasEstudiantes me " +
-                        "JOIN Materias m ON me.idMateria = m.idMateria " +
-                        "WHERE me.idEstudiante = ?";
-        PreparedStatement psMat = con.prepareStatement(sqlMat);
-        psMat.setInt(1, idEstudiante);
-        ResultSet rsMat = psMat.executeQuery();
-
+        EstudiantesConMaterias ecm = null;
         List<Materia> materias = new ArrayList<>();
-        while (rsMat.next()) {
+
+        while (rs.next()) {
+            if (ecm == null) {
+                ecm = new EstudiantesConMaterias();
+                ecm.setIdEstudiante(rs.getInt("idEstudiante"));
+                ecm.setIdentificacion(rs.getString("identificacion"));
+                ecm.setNombre(rs.getString("nombre"));
+            }
+
             Materia m = new Materia();
-            m.setIdMateria(rsMat.getInt("idMateria"));
-            m.setNombre(rsMat.getString("nombre"));
+            m.setIdMateria(rs.getInt("idMateria"));
+            m.setNombre(rs.getString("nombre"));
             materias.add(m);
         }
 
-        ecm.setMaterias(materias);
+        if (ecm != null) {
+            ecm.setMaterias(materias);
+        }
 
         con.close();
         return ecm;
