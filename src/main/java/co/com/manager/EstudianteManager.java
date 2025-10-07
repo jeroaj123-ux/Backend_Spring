@@ -96,6 +96,35 @@ public class EstudianteManager {
         return filas > 0;
     }
 
+    public List<EstudiantesConMaterias> getPromediosEstudiantes() throws Exception {
+        Connection con = BaseDatos.getConnection();
+
+        String sql = """
+            SELECT e.idEstudiante, e.identificacion, e.nombres,
+                   ROUND(AVG(me.nota), 2) AS promedio
+            FROM Estudiantes e
+            INNER JOIN MateriasEstudiantes me ON e.idEstudiante = me.idEstudiante
+            GROUP BY e.idEstudiante, e.identificacion, e.nombres
+        """;
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        List<EstudiantesConMaterias> lista = new ArrayList<>();
+
+        while (rs.next()) {
+            EstudiantesConMaterias ecm = new EstudiantesConMaterias();
+            ecm.setIdEstudiante(rs.getInt("idEstudiante"));
+            ecm.setIdentificacion(rs.getString("identificacion"));
+            ecm.setNombre(rs.getString("nombres"));
+            ecm.setPromedio(rs.getDouble("promedio")); 
+            lista.add(ecm);
+        }
+
+        con.close();
+        return lista;
+    }
+
 
 
 }

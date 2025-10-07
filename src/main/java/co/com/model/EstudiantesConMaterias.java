@@ -7,6 +7,15 @@ public class EstudiantesConMaterias {
 	private String identificacion;
 	private String nombre;
 	private List<Materia> materias;
+	private double promedio;
+
+	public double getPromedio() {
+	    return promedio;
+	}
+
+	public void setPromedio(double promedio) {
+	    this.promedio = promedio;
+	}
 	
 	public int getIdEstudiante() {
 		return idEstudiante;
